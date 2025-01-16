@@ -9,7 +9,7 @@ A dynamic blog platform with some unconventional features. Built with Node.js an
   - Messages drift naturally with physics-based animations
   - Chaos mode (🌀) for wild message behavior
   - One-time boost system per message
-- **Blog System**: 
+- **Blog System**:
   - Tag-based navigation
   - Markdown posts with frontmatter
   - Pagination
