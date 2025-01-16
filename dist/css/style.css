@@ -338,103 +338,120 @@ footer {
 
 /* Blog listing styles - Modern minimalist */
 .blog-posts {
-    margin: 4rem auto;
-    max-width: 800px;
+    max-width: 680px;
+    margin: 6rem auto 4rem;
     padding: 0 1.5rem;
 }
 
-.post-preview {
+.blog-posts h1 {
+    font-size: 2.5rem;
     margin-bottom: 3rem;
-    padding: 0;
-    background: none;
-    border: none;
-    border-radius: 0;
-    transition: transform 0.2s;
+    color: var(--text);
 }
 
-.post-preview:hover {
-    transform: translateX(10px);
-    box-shadow: none;
+.post-preview {
+    margin-bottom: 4rem;
+    position: relative;
 }
 
 .post-preview h2 {
     font-size: 1.5rem;
-    margin: 0 0 0.5rem;
-    font-weight: 600;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.4;
 }
 
 .post-preview h2 a {
     color: var(--text);
     text-decoration: none;
-    background: linear-gradient(var(--primary), var(--primary)) no-repeat;
-    background-size: 0 2px;
-    background-position: 0 100%;
-    transition: background-size 0.3s;
+    transition: color 0.2s;
 }
 
 .post-preview h2 a:hover {
-    background-size: 100% 2px;
-    color: var(--text);
+    color: var(--primary);
 }
 
 .post-meta {
     font-size: 0.9rem;
     color: var(--text-light);
-    margin-bottom: 0.75rem;
+    margin: 0.5rem 0 1rem;
 }
 
 .post-summary {
-    color: var(--text-light);
     font-size: 1rem;
     line-height: 1.6;
-    margin: 0;
+    color: var(--text-light);
+}
+
+/* Individual blog post */
+.blog-post {
+    max-width: 680px;
+    margin: 6rem auto 4rem;
+    padding: 0 1.5rem;
+}
+
+.blog-post h1 {
+    font-size: 2.5rem;
+    line-height: 1.3;
+    margin: 0 0 1rem;
+}
+
+.blog-post-meta {
+    color: var(--text-light);
+    margin-bottom: 3rem;
+    font-size: 0.95rem;
+}
+
+.blog-post-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text);
+}
+
+.blog-post-content p {
+    margin: 1.5rem 0;
+}
+
+.blog-post-content h2 {
+    font-size: 1.8rem;
+    margin: 3rem 0 1.5rem;
+    color: var(--text);
+}
+
+.blog-post-content h3 {
+    font-size: 1.4rem;
+    margin: 2.5rem 0 1rem;
+    color: var(--text);
 }
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
     .blog-posts {
-        margin: 2rem auto;
-        padding: 0 1rem;
+        margin: 4rem auto 2rem;
+        padding: 0 1.25rem;
+    }
+
+    .blog-posts h1 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
     }
 
     .post-preview {
-        margin-bottom: 2.5rem;
+        margin-bottom: 3rem;
     }
 
     .post-preview h2 {
         font-size: 1.3rem;
     }
 
-    .post-meta {
-        font-size: 0.85rem;
+    .blog-post {
+        margin: 4rem auto 2rem;
+        padding: 0 1.25rem;
     }
 
-    .post-summary {
-        font-size: 0.95rem;
+    .blog-post h1 {
+        font-size: 2rem;
     }
-}
-
-/* Individual blog post styling */
-.blog-post {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
-}
-
-.blog-post h1 {
-    font-size: 2rem;
-    margin: 0 0 1rem;
-    line-height: 1.3;
-}
-
-.blog-post .post-content {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: var(--text);
-}
-
-.blog-post .post-content p {
-    margin: 1.5rem 0;
 }
 
 /* About page styling */

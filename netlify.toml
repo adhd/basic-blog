@@ -1,0 +1,22 @@
+[build]
+  command = "npm install && mkdir -p netlify/functions"
+  publish = "public"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = true
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = [
+    "content/**/*",
+    "src/templates/**/*",
+    "src/utils/**/*"
+  ]
+
+[dev]
+  command = "npm run dev"
+  port = 3000 
