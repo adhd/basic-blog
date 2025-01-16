@@ -33,9 +33,12 @@ A dynamic blog platform with some unconventional features. Built with Node.js an
 
 ## Quick Start
 
+```
 bash
 npm install
 npm start
+```
+
 :
 markdown
 
@@ -63,3 +66,7 @@ Add `.md` files to `content/pages/`
 - Messages in The Void persist via localStorage
 - Theme preferences are saved between sessions
 - Particle effects trigger on navigation/theme
+
+```
+
+```
