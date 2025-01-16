@@ -21,15 +21,38 @@ A dynamic blog platform with some unconventional features. Built with Node.js an
 
 ## Project Structure
 
+.
+├── src/
+│ ├── server.js # Main Express server
+│ ├── templates/ # HTML templates
+│ │ ├── base.html # Base template others inherit from
+│ │ ├── blog.html # Blog listing template
+│ │ └── void.html # Void page template
+│ └── utils/ # Helper functions
+│ ├── blogUtils.js # Blog post handling
+│ └── quotes.js # Random quotes generator
+├── public/
+│ ├── css/
+│ │ └── style.css # Main stylesheet
+│ └── js/
+│ └── voidEffects.js # Void page interactions
 ├── content/
 │ ├── blog/ # Markdown blog posts
-│ └── pages/ # Static page content
-├── public/
-│ └── css/ # Stylesheets
-├── src/
-│ ├── templates/ # HTML templates
-│ ├── utils/ # Helper functions
-│ └── server.js # Express server
+│ │ └── _.md
+│ └── pages/ # Markdown static pages
+│ └── _.md
+└── package.json
+
+Key aspects:
+
+1. src/ - Server-side code and templates
+2. public/ - Static assets (CSS, JS, images)
+3. content/ - Markdown content for blog posts and pages
+4. Templates use Nunjucks templating
+5. Express serves the app
+6. Blog posts and pages are written in Markdown
+7. CSS is organized in a single file (could be split if it grows)
+8. Client-side JS is modular per feature
 
 ## Quick Start
 
@@ -38,17 +61,6 @@ bash
 npm install
 npm start
 ```
-
-:
-markdown
-
----
-
-title: Post Title
-date: YYYY-MM-DD
-tags: [tag1, tag2]
-
----
 
 ### Static Pages
 
