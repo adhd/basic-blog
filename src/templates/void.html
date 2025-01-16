@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Void Board</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .void-container {
+            position: relative;
+            min-height: calc(100vh - 200px);
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .void-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .void-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .void-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        #void-space {
+            position: relative;
+            min-height: 400px;
+            width: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .message-form {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background: var(--background);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 8px 32px var(--shadow);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            width: 90%;
+            max-width: 500px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .void-message {
+            position: absolute;
+            padding: 1.2rem;
+            background: var(--background);
+            border-radius: var(--radius);
+            box-shadow: 0 4px 12px var(--shadow);
+            max-width: 300px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+            border: 1px solid var(--border);
+            z-index: 2;
+        }
+
+        .void-message p {
+            margin: 0;
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .void-message small {
+            display: block;
+            margin-top: 0.5rem;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        .void-message.shooting-star {
+            background: linear-gradient(135deg, var(--primary), transparent);
+            border-color: var(--primary);
+        }
+
+        .void-message.nebula {
+            backdrop-filter: blur(4px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .void-message.black-hole {
+            background: var(--text);
+            color: var(--background);
+        }
+
+        .void-message.black-hole p {
+            color: var(--background);
+        }
+
+        .message-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: transparent;
+            color: var(--text);
+            font-family: inherit;
+            margin-bottom: 1rem;
+            resize: none;
+            height: 100px;
+            transition: border-color 0.2s ease;
+        }
+
+        .message-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .message-controls {
+            margin-bottom: 1rem;
+        }
+
+        .visibility-select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .visibility-select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .release-button {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: var(--radius);
+            background: var(--primary);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .release-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .chaos-button {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .chaos-button:hover {
+            transform: rotate(180deg) scale(1.1);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px var(--primary); }
+            50% { box-shadow: 0 0 20px var(--primary); }
+        }
+
+        .void-message.already-boosted {
+            position: relative;
+        }
+
+        .void-message.already-boosted::after {
+            content: '✨';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+
+        .void-message.already-boosted:hover {
+            transform: scale(1.1) !important; /* Keep the boosted scale */
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--background);
+            cursor: pointer;
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(45deg);
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            transform: rotate(180deg);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            transform: rotate(225deg);
+        }
+    </style>
+</head>
+<body>
+    <button class="nav-toggle" title="Toggle Navigation"></button>
+    <button class="theme-toggle" title="Toggle theme">🌈</button>
+    <div class="nav-trigger"></div>
+    <header>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/blog">Blog</a>
+            <a href="/about">About</a>
+            <a href="/faq">FAQ</a>
+            <a href="/contact">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Your void board content here -->
+        <div class="void-container">
+            <div class="void-header">
+                <h1>The Void Board</h1>
+                <p>Where thoughts drift eternally in digital space</p>
+            </div>
+
+            <div id="void-space"></div>
+
+            <form class="message-form" id="void-form">
+                <textarea 
+                    class="message-input" 
+                    placeholder="Release your thought into the void..."
+                    maxlength="280"
+                    required
+                ></textarea>
+                <div class="message-controls">
+                    <select class="visibility-select" required>
+                        <option value="shooting-star">Shooting Star</option>
+                        <option value="nebula">Nebula</option>
+                        <option value="black-hole">Black Hole</option>
+                    </select>
+                </div>
+                <button type="submit" class="release-button">Release into the Void</button>
+            </form>
+
+            <button class="chaos-button" title="Unleash Chaos">🌀</button>
+        </div>
+    </main>
+
+    <footer class="dynamic-footer" style="opacity: 0; transition: opacity 0.3s ease;">
+        <p>You've reached the bottom of the page. Congrats on making it this far.</p>
+        <p class="random-thought">Here's a thought: <em>{{random_quote}}</em></p>
+    </footer>
+
+    <script>
+        const DEBUG = true;
+        function log(...args) {
+            if (DEBUG) console.log(...args);
+        }
+
+        class MessageTracker {
+            constructor() {
+                this.storageKey = 'voidMessageClicks';
+                this.clickedMessages = new Set(this.loadClickedMessages());
+            }
+
+            loadClickedMessages() {
+                const saved = localStorage.getItem(this.storageKey);
+                return saved ? JSON.parse(saved) : [];
+            }
+
+            saveClickedMessages() {
+                localStorage.setItem(this.storageKey, JSON.stringify([...this.clickedMessages]));
+            }
+
+            hasClicked(messageId) {
+                return this.clickedMessages.has(messageId.toString());
+            }
+
+            trackClick(messageId) {
+                this.clickedMessages.add(messageId.toString());
+                this.saveClickedMessages();
+            }
+        }
+
+        class VoidMessage {
+            constructor(message, type) {
+                log('Creating new message:', { message, type });
+                this.id = Date.now() + Math.random();
+                this.message = message;
+                this.type = type;
+                this.timestamp = Date.now();
+                
+                // Calculate position relative to void-space instead of window
+                const voidSpace = document.getElementById('void-space');
+                const rect = voidSpace.getBoundingClientRect();
+                this.x = Math.random() * (rect.width - 300);
+                this.y = Math.random() * (rect.height - 100);
+                
+                log('Message position:', { x: this.x, y: this.y });
+                
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.messageTracker = new MessageTracker();
+                this.element = this.createElement();
+                
+                log('Message element created:', this.element);
+            }
+
+            createElement() {
+                const elem = document.createElement('div');
+                elem.className = `void-message ${this.type}`;
+                elem.innerHTML = `<p>${this.message}</p>`;
+                elem.style.left = `${this.x}px`;
+                elem.style.top = `${this.y}px`;
+                elem.style.opacity = this.getOpacity();
+                
+                if (!this.messageTracker.hasClicked(this.id)) {
+                    elem.addEventListener('click', () => this.boost());
+                    elem.style.cursor = 'pointer';
+                } else {
+                    elem.style.transform = 'scale(1.1)';
+                    elem.style.cursor = 'default';
+                    elem.classList.add('already-boosted');
+                }
+                
+                return elem;
+            }
+
+            getOpacity() {
+                const age = Date.now() - this.timestamp;
+                return Math.max(0.3, 1 - (age / (1000 * 60 * 60))); // Fade over an hour
+            }
+
+            update() {
+                const voidSpace = document.getElementById('void-space');
+                const rect = voidSpace.getBoundingClientRect();
+                
+                // Update position with chaos modifications
+                if (this.board && this.board.isInChaosMode) {
+                    // Add random acceleration
+                    this.vx += (Math.random() - 0.5) * 2;
+                    this.vy += (Math.random() - 0.5) * 2;
+                    
+                    // Clamp maximum speed
+                    this.vx = Math.max(Math.min(this.vx, 30), -30);
+                    this.vy = Math.max(Math.min(this.vy, 30), -30);
+                }
+                
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off walls with more energy in chaos mode
+                if (this.x <= 0 || this.x >= rect.width - 300) {
+                    this.vx *= -1.1; // Add extra bounce energy
+                    this.x = Math.max(0, Math.min(this.x, rect.width - 300));
+                    if (this.board && this.board.isInChaosMode) {
+                        this.vy += (Math.random() - 0.5) * 10; // Add vertical kick on horizontal bounce
+                    }
+                }
+                if (this.y <= 0 || this.y >= rect.height - 100) {
+                    this.vy *= -1.1;
+                    this.y = Math.max(0, Math.min(this.y, rect.height - 100));
+                    if (this.board && this.board.isInChaosMode) {
+                        this.vx += (Math.random() - 0.5) * 10; // Add horizontal kick on vertical bounce
+                    }
+                }
+
+                // Update element position
+                this.element.style.left = `${this.x}px`;
+                this.element.style.top = `${this.y}px`;
+                this.element.style.opacity = this.getOpacity();
+
+                // Add wild transformations during chaos mode
+                if (this.board && this.board.isInChaosMode) {
+                    const now = Date.now() / 1000;
+                    const spin = this.spin || 0;
+                    const scale = this.scale || 1;
+                    this.element.style.transform = `
+                        rotate(${spin * Math.sin(now * 2)}deg)
+                        scale(${scale * (0.8 + Math.sin(now * 4) * 0.2)})
+                        skew(${Math.sin(now * 3) * 20}deg, ${Math.cos(now * 3) * 20}deg)
+                    `;
+                } else {
+                    this.element.style.transform = '';
+                }
+            }
+
+            boost() {
+                if (this.messageTracker.hasClicked(this.id)) {
+                    return; // Prevent multiple boosts
+                }
+                
+                this.messageTracker.trackClick(this.id);
+                this.element.style.transform = 'scale(1.1)';
+                this.element.style.cursor = 'default';
+                this.element.classList.add('already-boosted');
+                this.timestamp = Date.now(); // Reset age
+                createParticles(this.x + 150, this.y + 50);
+            }
+        }
+
+        class VoidBoard {
+            constructor() {
+                log('Initializing VoidBoard');
+                this.messages = [];
+                this.isInChaosMode = false;
+                this.voidSpace = document.getElementById('void-space');
+                
+                if (!this.voidSpace) {
+                    console.error('Void space element not found!');
+                    return;
+                }
+                
+                // Ensure void-space has proper dimensions
+                this.voidSpace.style.minHeight = '400px';
+                this.voidSpace.style.position = 'relative';
+                
+                log('Void space dimensions:', this.voidSpace.getBoundingClientRect());
+                
+                this.loadMessages();
+                this.animate();
+                log('VoidBoard initialized');
+            }
+
+            addMessage(text, type) {
+                log('Adding message:', { text, type });
+                const message = new VoidMessage(text, type);
+                message.board = this; // Add reference to board
+                this.messages.push(message);
+                this.voidSpace.appendChild(message.element);
+                this.saveMessages();
+                
+                // Add entry effect
+                createParticles(message.x + 150, message.y + 50);
+                log('Message added, total messages:', this.messages.length);
+            }
+
+            saveMessages() {
+                try {
+                    const data = this.messages.map(m => ({
+                        message: m.message,
+                        type: m.type,
+                        timestamp: m.timestamp
+                    }));
+                    console.log('Saving messages:', data); // Debug log
+                    localStorage.setItem('voidMessages', JSON.stringify(data));
+                } catch (error) {
+                    console.error('Error saving messages:', error);
+                }
+            }
+
+            loadMessages() {
+                try {
+                    const saved = localStorage.getItem('voidMessages');
+                    console.log('Loading saved messages:', saved); // Debug log
+                    if (saved) {
+                        const messages = JSON.parse(saved);
+                        messages.forEach(m => {
+                            this.addMessage(m.message, m.type);
+                        });
+                    } else {
+                        // Add initial messages
+                        this.addMessage(
+                            "Welcome to the void! Click me to boost my energy ✨",
+                            "shooting-star"
+                        );
+                        this.addMessage(
+                            "Your thoughts will float here eternally...",
+                            "nebula"
+                        );
+                    }
+                } catch (error) {
+                    console.error('Error loading messages:', error);
+                }
+            }
+
+            animate() {
+                if (this.messages.length > 0) {
+                    this.messages.forEach(message => {
+                        if (this.isInChaosMode) {
+                            message.vx = (Math.random() - 0.5) * 10;
+                            message.vy = (Math.random() - 0.5) * 10;
+                        }
+                        message.update();
+                    });
+                }
+                requestAnimationFrame(() => this.animate());
+            }
+
+            toggleChaos() {
+                this.isInChaosMode = !this.isInChaosMode;
+                if (this.isInChaosMode) {
+                    // Much faster and more random movement
+                    this.messages.forEach(message => {
+                        message.vx = (Math.random() - 0.5) * 25; // Increased from 10 to 25
+                        message.vy = (Math.random() - 0.5) * 25;
+                        message.spin = (Math.random() - 0.5) * 720; // Add wild spinning
+                        message.scale = 0.5 + Math.random() * 1.5; // Random scaling
+                        message.element.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+                    });
+                } else {
+                    // Return to normal
+                    this.messages.forEach(message => {
+                        message.vx = (Math.random() - 0.5) * 2;
+                        message.vy = (Math.random() - 0.5) * 2;
+                        message.spin = 0;
+                        message.scale = 1;
+                        message.element.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    });
+                }
+            }
+        }
+
+        // Particle effect function
+        function createParticles(x, y) {
+            const particleCount = 12;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'nav-particle';
+                
+                const angle = (i / particleCount) * 360;
+                const distance = Math.random() * 100 + 50;
+                const xOffset = Math.cos(angle * Math.PI / 180) * distance;
+                const yOffset = Math.sin(angle * Math.PI / 180) * distance;
+                
+                particle.style.setProperty('--x', `${xOffset}px`);
+                particle.style.setProperty('--y', `${yOffset}px`);
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 600);
+            }
+        }
+
+        // Initialize the void board after DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            log('DOM loaded');
+            
+            // Ensure void-space exists
+            const voidSpace = document.getElementById('void-space');
+            if (!voidSpace) {
+                console.error('void-space element not found');
+                return;
+            }
+            log('void-space found');
+            
+            const voidBoard = new VoidBoard();
+            window.voidBoard = voidBoard; // Make it accessible for debugging
+            
+            const form = document.getElementById('void-form');
+            if (!form) {
+                console.error('void-form not found');
+                return;
+            }
+            log('void-form found');
+            
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                log('Form submitted');
+                
+                const messageInput = e.target.querySelector('.message-input');
+                const visibilitySelect = e.target.querySelector('.visibility-select');
+                
+                if (!messageInput || !visibilitySelect) {
+                    console.error('Form elements not found');
+                    return;
+                }
+                
+                const text = messageInput.value.trim();
+                const type = visibilitySelect.value;
+                
+                log('Form values:', { text, type });
+                
+                if (text) {
+                    voidBoard.addMessage(text, type);
+                    messageInput.value = '';
+                    log('Message added successfully');
+                }
+            });
+
+            // Chaos button handler
+            const chaosButton = document.querySelector('.chaos-button');
+            if (chaosButton) {
+                chaosButton.addEventListener('click', () => {
+                    voidBoard.toggleChaos();
+                    chaosButton.style.transform = voidBoard.isInChaosMode ? 'rotate(720deg)' : '';
+                    
+                    // Add particle burst effect when toggling chaos
+                    const rect = chaosButton.getBoundingClientRect();
+                    createParticles(
+                        rect.left + rect.width / 2,
+                        rect.top + rect.height / 2
+                    );
+                });
+            }
+
+            // Navigation toggle functionality
+            const header = document.querySelector('header');
+            const navToggle = document.querySelector('.nav-toggle');
+
+            navToggle.addEventListener('click', () => {
+                const rect = navToggle.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+                
+                // Create particle effect
+                createParticles(x, y);
+                
+                // Toggle header visibility
+                header.classList.toggle('visible');
+            });
+
+            // Hide header when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!header.contains(e.target) && 
+                    !navToggle.contains(e.target) && 
+                    !e.target.classList.contains('nav-trigger')) {
+                    header.classList.remove('visible');
+                }
+            });
+
+            // Theme toggle functionality
+            const themeToggle = document.querySelector('.theme-toggle');
+            const root = document.documentElement;
+
+            function generatePalette(isDark) {
+                const palettes = {
+                    light: [
+                        {
+                            primary: 'hsl(330, 80%, 75%)',  // Pastel pink
+                            background: 'hsl(60, 30%, 96%)', // Warm white
+                            text: 'hsl(250, 25%, 25%)',     // Deep purple-grey
+                            border: 'hsl(330, 30%, 90%)',   // Light pink
+                            shadow: 'hsla(330, 50%, 50%, 0.1)'
+                        },
+                        {
+                            primary: 'hsl(180, 70%, 75%)',  // Pastel turquoise
+                            background: 'hsl(180, 25%, 95%)', // Cool white
+                            text: 'hsl(200, 30%, 20%)',     // Deep blue-grey
+                            border: 'hsl(180, 30%, 90%)',   // Light turquoise
+                            shadow: 'hsla(180, 50%, 50%, 0.1)'
+                        },
+                        {
+                            primary: 'hsl(280, 70%, 75%)',  // Pastel purple
+                            background: 'hsl(280, 20%, 97%)', // Light lavender
+                            text: 'hsl(280, 25%, 20%)',     // Deep purple
+                            border: 'hsl(280, 30%, 90%)',   // Light purple
+                            shadow: 'hsla(280, 50%, 50%, 0.1)'
+                        }
+                    ],
+                    dark: [
+                        {
+                            primary: 'hsl(330, 80%, 65%)',  // Neon pink
+                            background: 'hsl(250, 25%, 15%)', // Deep purple-grey
+                            text: 'hsl(60, 30%, 90%)',      // Warm white
+                            border: 'hsl(330, 50%, 25%)',   // Dark pink
+                            shadow: 'hsla(330, 80%, 50%, 0.2)'
+                        },
+                        {
+                            primary: 'hsl(180, 70%, 65%)',  // Neon turquoise
+                            background: 'hsl(200, 30%, 12%)', // Deep blue-grey
+                            text: 'hsl(180, 25%, 90%)',     // Light turquoise
+                            border: 'hsl(180, 50%, 25%)',   // Dark turquoise
+                            shadow: 'hsla(180, 80%, 50%, 0.2)'
+                        },
+                        {
+                            primary: 'hsl(280, 70%, 65%)',  // Neon purple
+                            background: 'hsl(280, 25%, 12%)', // Deep purple
+                            text: 'hsl(280, 20%, 90%)',     // Light lavender
+                            border: 'hsl(280, 50%, 25%)',   // Dark purple
+                            shadow: 'hsla(280, 80%, 50%, 0.2)'
+                        }
+                    ]
+                };
+
+                const mode = isDark ? 'dark' : 'light';
+                return palettes[mode][Math.floor(Math.random() * palettes[mode].length)];
+            }
+
+            function setTheme(isDark) {
+                const palette = generatePalette(isDark);
+                root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                
+                // Apply colors with transition
+                root.style.setProperty('--primary', palette.primary);
+                root.style.setProperty('--background', palette.background);
+                root.style.setProperty('--text', palette.text);
+                root.style.setProperty('--border', palette.border);
+                root.style.setProperty('--shadow', palette.shadow);
+                
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                
+                // Animate the toggle button
+                themeToggle.style.transform = `rotate(${Math.random() * 360}deg)`;
+            }
+
+            // Initialize theme
+            const savedTheme = localStorage.getItem('theme') === 'dark';
+            setTheme(savedTheme);
+
+            // Toggle theme on click
+            themeToggle.addEventListener('click', () => {
+                const isDark = root.getAttribute('data-theme') !== 'dark';
+                setTheme(isDark);
+                
+                // Add particle effect
+                const rect = themeToggle.getBoundingClientRect();
+                createParticles(rect.left + rect.width / 2, rect.top + rect.height / 2);
+            });
+        });
+    </script>
+</body>
+</html> 

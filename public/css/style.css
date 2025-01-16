@@ -1,0 +1,1032 @@
+/* Variables */
+:root {
+  --primary: #6366f1;      /* Indigo */
+  --primary-dark: #4f46e5;
+  --secondary: #f0fdf4;    /* Light mint */
+  --text: #1f2937;        /* Dark gray */
+  --text-light: #6b7280;  /* Medium gray */
+  --background: #ffffff;
+  --border: #e5e7eb;
+  --shadow: rgba(0, 0, 0, 0.05);
+  --radius: 8px;
+}
+
+/* Import modern font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base styles */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  background-color: var(--background);
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 2rem 0 1rem;
+  color: var(--text);
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-top: 0;
+}
+
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.5rem; }
+
+p, ul, ol {
+  margin-bottom: 1.5rem;
+  color: var(--text-light);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--primary-dark);
+}
+
+/* Header & Navigation */
+header {
+  position: fixed;
+  top: -100%;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: var(--background);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy easing */
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 12px var(--shadow);
+  transform-origin: top center;
+  transform: perspective(1000px) rotateX(-90deg);
+  opacity: 0;
+}
+
+header.visible {
+  top: 0;
+  transform: perspective(1000px) rotateX(0);
+  opacity: 1;
+}
+
+header nav {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  align-items: center;
+}
+
+header nav a {
+  opacity: 0;
+  transform: translateY(-20px) rotate(-5deg);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition-delay: 0.1s;
+}
+
+header.visible nav a {
+  opacity: 1;
+  transform: translateY(0) rotate(0);
+}
+
+/* Add staggered delay for each nav item */
+header nav a:nth-child(1) { transition-delay: 0.1s; }
+header nav a:nth-child(2) { transition-delay: 0.2s; }
+header nav a:nth-child(3) { transition-delay: 0.3s; }
+header nav a:nth-child(4) { transition-delay: 0.4s; }
+header nav a:nth-child(5) { transition-delay: 0.5s; }
+
+nav a {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--primary);
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+nav a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Main content */
+main {
+  padding-top: 4rem;
+}
+
+/* Blog posts */
+.post-preview {
+  padding: 2rem;
+  margin-bottom: 2rem;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.post-preview:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px var(--shadow);
+}
+
+.post-date {
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.post-tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.tag {
+  padding: 0.25rem 0.75rem;
+  background-color: var(--secondary);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  color: var(--primary);
+  transition: background-color 0.2s;
+}
+
+.tag:hover {
+  background-color: #e0e7ff;
+}
+
+/* Contact form */
+.contact-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 6px var(--shadow);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+button[type="submit"] {
+  background-color: var(--primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 3rem;
+}
+
+.pagination a {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.pagination a.active {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Footer */
+footer {
+  padding: 2rem 0;
+  margin-top: 4rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    padding: 0 1rem;
+  }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .post-preview {
+    padding: 1.5rem;
+  }
+}
+
+/* Blog listing styles */
+.blog-posts {
+  margin: 2rem 0;
+}
+
+.post-preview {
+  padding: 2rem;
+  margin-bottom: 2rem;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.post-preview:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px var(--shadow);
+}
+
+.post-preview h2 {
+  margin-top: 0;
+}
+
+.post-preview h2 a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.post-preview h2 a:hover {
+  color: var(--primary);
+}
+
+.post-meta {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.post-summary {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+}
+
+/* Tags styling */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0 2rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--secondary);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  color: var(--primary);
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.tag:hover {
+  background-color: #e0e7ff;
+  color: var(--primary-dark);
+}
+
+.tag-count {
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  background-color: var(--primary);
+  color: white;
+  padding: 0.125rem 0.375rem;
+  border-radius: 999px;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Pagination styling */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.page-link {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.page-link:hover {
+  background-color: var(--secondary);
+  color: var(--primary);
+}
+
+.page-current {
+  padding: 0.5rem 1rem;
+  background-color: var(--primary);
+  color: white;
+  border-radius: var(--radius);
+}
+
+.no-posts {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* Individual blog post styling */
+.blog-post {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.blog-post h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.blog-post .post-meta {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.blog-post .post-tags {
+  margin: 1rem 0 2rem;
+}
+
+.blog-post .post-content {
+  margin-top: 2rem;
+}
+
+.blog-post .post-content h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.blog-post .post-content p {
+  margin-bottom: 1.5rem;
+  color: var(--text);
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.blog-post .post-content ul,
+.blog-post .post-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  color: var(--text);
+}
+
+.blog-post .post-content li {
+  margin-bottom: 0.5rem;
+}
+
+.blog-post .post-content code {
+  background-color: var(--secondary);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.blog-post .post-content pre {
+  background-color: var(--secondary);
+  padding: 1rem;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.blog-post .post-content pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.blog-post .post-content blockquote {
+  border-left: 4px solid var(--primary);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* About page styling */
+.about-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.about-content p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  color: var(--text);
+}
+
+.about-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: var(--text);
+}
+
+/* FAQ page styling */
+.faq-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.faq-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: var(--text);
+}
+
+.faq-content h3 {
+  color: var(--primary);
+  margin-top: 3rem;
+  font-size: 1.3rem;
+  position: relative;
+}
+
+.faq-content h3::before {
+  content: "//";
+  position: absolute;
+  left: -2rem;
+  color: var(--primary);
+  opacity: 0.5;
+}
+
+.faq-content p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  color: var(--text);
+  padding-left: 1rem;
+  border-left: 3px solid var(--border);
+  transition: border-left-color 0.2s ease;
+}
+
+.faq-content p:hover {
+  border-left-color: var(--primary);
+}
+
+/* Additional About page styling */
+.about-content h3 {
+  color: var(--primary);
+  margin-top: 3rem;
+  font-size: 1.3rem;
+  position: relative;
+}
+
+.about-content h3::before {
+  content: "//";
+  position: absolute;
+  left: -2rem;
+  color: var(--primary);
+  opacity: 0.5;
+}
+
+.about-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.about-content ul li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.about-content ul li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  opacity: 0.7;
+}
+
+.about-content ul li:hover::before {
+  opacity: 1;
+  transform: translateX(3px);
+  transition: all 0.2s ease;
+}
+
+/* Update blog post subheader styling */
+.blog-post .post-content h2,
+.blog-post .post-content h3 {
+  color: var(--primary);
+  margin-top: 3rem;
+  font-size: 1.3rem;
+  position: relative;
+}
+
+.blog-post .post-content h2::before,
+.blog-post .post-content h3::before {
+  content: "//";
+  position: absolute;
+  left: -2rem;
+  color: var(--primary);
+  opacity: 0.5;
+}
+
+/* Add to blog post styling section */
+.blog-post .post-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  margin: 1rem 0;
+  line-height: 1.6;
+}
+
+/* Dynamic footer styling */
+.dynamic-footer {
+  text-align: center;
+  padding: 2rem;
+  margin-top: 4rem;
+  border-top: 1px solid var(--border);
+  background: linear-gradient(to bottom, transparent, var(--background));
+}
+
+.dynamic-footer p {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.dynamic-footer .random-thought {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.dynamic-footer .random-thought em {
+  color: var(--primary);
+  font-style: normal;
+}
+
+/* Homepage specific styling */
+.home-nav {
+  margin: 4rem 0;
+  position: relative;
+}
+
+.nav-link {
+  display: block;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  font-size: 1.2rem;
+  color: var(--text);
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transform: translateX(0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link:nth-child(odd) {
+  margin-left: 2rem;
+}
+
+.nav-link:nth-child(even) {
+  margin-right: 2rem;
+}
+
+.nav-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--primary);
+  opacity: 0.05;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px var(--shadow);
+}
+
+.nav-link:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav-link span {
+  display: inline-block;
+  margin-right: 1rem;
+  font-family: monospace;
+  color: var(--primary);
+  transition: transform 0.2s ease;
+}
+
+.nav-link:hover span {
+  transform: scale(1.2);
+}
+
+/* Chaos Generator button */
+.chaos-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 1rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 100;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.chaos-btn:hover {
+  transform: rotate(180deg);
+  background: var(--primary-dark);
+}
+
+/* Time-based color variations */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: #818cf8;
+    --primary-dark: #6366f1;
+    --background: #1f2937;
+    --text: #f3f4f6;
+    --text-light: #9ca3af;
+    --border: #374151;
+  }
+}
+
+/* Easter egg styling */
+.easter-egg {
+  position: absolute;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.easter-egg.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Add to your existing CSS */
+.brew-container {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.brew-title {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 4rem;
+  color: var(--primary);
+  position: relative;
+}
+
+.brew-title::after {
+  content: "☕";
+  position: absolute;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  opacity: 0.7;
+  animation: steam 2s infinite;
+}
+
+.brew-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.brew-item {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.brew-item.large {
+  grid-column: span 2;
+  background: linear-gradient(135deg, var(--background), var(--secondary));
+}
+
+.brew-item.accent {
+  background: linear-gradient(45deg, var(--primary), transparent);
+  color: white;
+}
+
+.brew-status {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.brew-item.accent .brew-status {
+  color: white;
+}
+
+.brew-item h2 {
+  font-size: 1.5rem;
+  margin: 0 0 1rem;
+}
+
+.brew-item p {
+  color: var(--text-light);
+  margin: 0;
+}
+
+.brew-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--primary);
+  opacity: 0.5;
+  transition: width 1s ease;
+}
+
+.portal-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 4rem;
+}
+
+.portal-link {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.portal-link:hover {
+  transform: translateX(10px);
+  background: linear-gradient(90deg, var(--secondary), transparent);
+}
+
+.portal-icon {
+  font-size: 1.5rem;
+  color: var(--primary);
+}
+
+.portal-text h3 {
+  margin: 0;
+  color: var(--text);
+}
+
+.portal-text p {
+  margin: 0.25rem 0 0;
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+@keyframes steam {
+  0%, 100% { transform: translateY(0) rotate(5deg); }
+  50% { transform: translateY(-5px) rotate(-5deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .brew-item.large {
+    grid-column: span 1;
+  }
+  
+  .brew-container {
+    padding: 2rem 1rem;
+  }
+  
+  .brew-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Nav toggle button */
+.nav-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 40px;
+  height: 40px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1001;
+  box-shadow: 0 2px 8px var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-toggle::before {
+  content: "⋮";
+  font-size: 1.5rem;
+  color: var(--primary);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Rotate icon when header is visible */
+header.visible ~ .nav-toggle::before {
+  transform: rotate(720deg) scale(1.2);
+}
+
+.nav-toggle:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Keep toggle visible but style it differently when header is shown */
+header.visible ~ .nav-toggle {
+  opacity: 0.6;
+}
+
+header.visible ~ .nav-toggle:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Adjust main content padding */
+main {
+  padding-top: 4rem;
+}
+
+/* Show header on hover in top area */
+.nav-trigger {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  z-index: 999;
+}
+
+.nav-trigger:hover ~ header,
+header:hover,
+header.visible {
+  top: 0;
+}
+
+/* Remove hover trigger */
+.nav-trigger {
+  display: none;
+}
+
+/* Add subtle hover trigger area */
+.nav-trigger {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  z-index: 999;
+}
+
+/* Update toggle button animation */
+.nav-toggle::before {
+  content: "⋮";
+  font-size: 1.5rem;
+  color: var(--primary);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+header.visible ~ .nav-toggle::before {
+  transform: rotate(720deg) scale(1.2);
+}
+
+/* Add particle effect when opening menu */
+@keyframes particle {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x), var(--y)) scale(0);
+    opacity: 0;
+  }
+}
+
+.nav-particle {
+  position: fixed;
+  pointer-events: none;
+  background: var(--primary);
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  z-index: 1002;
+  animation: particle 0.6s ease-out forwards;
+} 

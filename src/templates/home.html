@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Blog</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--background);
+            cursor: pointer;
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(45deg);
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            transform: rotate(180deg);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            transform: rotate(225deg);
+        }
+    </style>
+</head>
+<body>
+    <button class="nav-toggle" title="Toggle Navigation"></button>
+    <button class="theme-toggle" title="Toggle theme">🌈</button>
+    <div class="nav-trigger"></div>
+    <header>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/blog">Blog</a>
+            <a href="/about">About</a>
+            <a href="/faq">FAQ</a>
+            <a href="/contact">Contact</a>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="brew-container">
+            <h1 class="brew-title">Currently Brewing</h1>
+            
+            <div class="brew-grid">
+                <div class="brew-item large">
+                    <span class="brew-status">Percolating</span>
+                    <h2>Neural Gardening</h2>
+                    <p>Teaching AI to appreciate dad jokes through interpretive dance</p>
+                    <div class="brew-progress"></div>
+                </div>
+
+                <div class="brew-item">
+                    <span class="brew-status">Steeping</span>
+                    <h2>Time Origami</h2>
+                    <p>Folding moments into paper cranes until they fly</p>
+                    <div class="brew-progress"></div>
+                </div>
+
+                <div class="brew-item accent">
+                    <span class="brew-status">Distilling</span>
+                    <h2>Quantum Doodling</h2>
+                    <p>Drawing in multiple dimensions simultaneously</p>
+                    <div class="brew-progress"></div>
+                </div>
+
+                <div class="brew-item">
+                    <span class="brew-status">Fermenting</span>
+                    <h2>Digital Archaeology</h2>
+                    <p>Excavating forgotten tabs from Chrome's ancient history</p>
+                    <div class="brew-progress"></div>
+                </div>
+            </div>
+
+            <nav class="portal-links">
+                <a href="/blog" class="portal-link">
+                    <span class="portal-icon">→</span>
+                    <div class="portal-text">
+                        <h3>Down the Rabbit Hole</h3>
+                        <p>Where thoughts go to multiply</p>
+                    </div>
+                </a>
+                
+                <a href="/about" class="portal-link">
+                    <span class="portal-icon">←</span>
+                    <div class="portal-text">
+                        <h3>Into the Brain Archive</h3>
+                        <p>Warning: May contain traces of genius and/or madness</p>
+                    </div>
+                </a>
+                
+                <a href="/contact" class="portal-link">
+                    <span class="portal-icon">↓</span>
+                    <div class="portal-text">
+                        <h3>Send Thought Signals</h3>
+                        <p>Telepathy currently in beta testing</p>
+                    </div>
+                </a>
+            </nav>
+        </div>
+
+        <button class="chaos-btn" title="Recalibrate Reality">↺</button>
+    </main>
+
+    <footer class="dynamic-footer" style="opacity: 0; transition: opacity 0.3s ease;">
+        <p>You've reached the bottom of the page. Congrats on making it this far.</p>
+        <p class="random-thought">Here's a thought: <em>{{random_quote}}</em></p>
+    </footer>
+
+    <script>
+        // Brew progress animation
+        document.querySelectorAll('.brew-progress').forEach(progress => {
+            progress.style.width = `${Math.random() * 60 + 40}%`;
+        });
+
+        // Floating elements
+        document.querySelectorAll('.brew-item').forEach(item => {
+            let float = 0;
+            setInterval(() => {
+                float = Math.sin(Date.now() / 1000) * 5;
+                item.style.transform = `translateY(${float}px)`;
+            }, 50);
+        });
+
+        // Navigation toggle with particles
+        const header = document.querySelector('header');
+        const navToggle = document.querySelector('.nav-toggle');
+        
+        function createParticles(x, y) {
+            const particleCount = 12;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'nav-particle';
+                
+                const angle = (i / particleCount) * 360;
+                const distance = Math.random() * 100 + 50;
+                const xOffset = Math.cos(angle * Math.PI / 180) * distance;
+                const yOffset = Math.sin(angle * Math.PI / 180) * distance;
+                
+                particle.style.setProperty('--x', `${xOffset}px`);
+                particle.style.setProperty('--y', `${yOffset}px`);
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 600);
+            }
+        }
+        
+        navToggle.addEventListener('click', (e) => {
+            const rect = navToggle.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            createParticles(x, y);
+            header.classList.toggle('visible');
+        });
+
+        // Enhanced chaos functionality
+        const chaosBtn = document.querySelector('.chaos-btn');
+        const emojis = ['✨', '🌟', '💫', '🎨', '🎭', '🎪', '🎯', '🎲', '🔮', '🎸', '🎹', '🌈', '🍄', '🎠', '🎡', '🎪', '🌌', '⚡️', '🎵', '🎶'];
+        let chaosLevel = 0;
+        let isInChaosMode = false;
+
+        function createChaosEmoji(x, y, isIntense = false) {
+            const emoji = document.createElement('div');
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.position = 'fixed';
+            emoji.style.left = `${x}px`;
+            emoji.style.top = `${y}px`;
+            emoji.style.fontSize = `${isIntense ? Math.random() * 3 + 1 : 1.5}rem`;
+            emoji.style.pointerEvents = 'none';
+            emoji.style.zIndex = '9999';
+            emoji.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            emoji.style.opacity = '0';
+            emoji.style.transform = 'translateY(20px)';
+            document.body.appendChild(emoji);
+            
+            requestAnimationFrame(() => {
+                emoji.style.opacity = '1';
+                emoji.style.transform = `translate(
+                    ${Math.random() * 200 - 100}px,
+                    ${Math.random() * 200 - 100}px
+                ) rotate(${Math.random() * 720 - 360}deg) scale(${Math.random() + 0.5})`;
+            });
+            
+            setTimeout(() => emoji.remove(), isIntense ? 2000 : 1000);
+        }
+
+        function applyWildTransform(element) {
+            const transforms = [
+                `rotate(${Math.random() * 360}deg)`,
+                `skew(${Math.random() * 20 - 10}deg)`,
+                `scale(${Math.random() * 0.5 + 0.8})`,
+                `translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px)`
+            ];
+            
+            element.style.transform = transforms.join(' ');
+            element.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
+
+        function createChaosRipple(x, y) {
+            const ripple = document.createElement('div');
+            ripple.style.position = 'fixed';
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            ripple.style.transform = 'translate(-50%, -50%)';
+            ripple.style.width = '10px';
+            ripple.style.height = '10px';
+            ripple.style.background = `hsl(${Math.random() * 360}, 80%, 60%)`;
+            ripple.style.borderRadius = '50%';
+            ripple.style.pointerEvents = 'none';
+            ripple.style.zIndex = '9998';
+            ripple.style.animation = 'ripple 1s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 1000);
+        }
+
+        function meltElement(element) {
+            const letters = element.textContent.split('');
+            const originalText = element.textContent;
+            const originalHTML = element.innerHTML;
+            
+            element.style.transition = 'all 2s cubic-bezier(0.4, 0, 0.2, 1)';
+            
+            // Melt text effect
+            element.innerHTML = letters.map(letter => 
+                `<span style="display: inline-block; transition: all ${Math.random() * 2 + 1}s cubic-bezier(0.4, 0, 0.2, 1)">${letter}</span>`
+            ).join('');
+            
+            Array.from(element.children).forEach(span => {
+                requestAnimationFrame(() => {
+                    span.style.transform = `
+                        translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 + 50}px)
+                        rotate(${Math.random() * 360}deg)
+                        scale(${Math.random() * 2})
+                    `;
+                    span.style.opacity = Math.random();
+                    span.style.filter = `blur(${Math.random() * 5}px)`;
+                    span.style.color = `hsl(${Math.random() * 360}, 80%, 60%)`;
+                });
+            });
+
+            return () => {
+                element.innerHTML = originalHTML;
+                element.textContent = originalText;
+            };
+        }
+
+        const asciiEmoticons = [
+            "(┛◉Д◉)┛┻━┻", "(╯°□°）╯︵ ┻━┻", "╰⋃╯ლ(´ڡ`ლ)", "(´･ω･`)", 
+            "⊂二二二（ ＾ω ＾）二⊃", "♪┏(・o･)┛♪┗ ( ･o･) ┓", "(╬ ಠ益ಠ)",
+            "( ´∀｀)σ)∀`)", "⊂（ﾟДﾟ⊂⌒｀つ≡≡≡(´⌒;;;≡≡≡", "૮꒰ ˶- ༝ - ˶꒱ა ♡",
+            "{_/} ( - . - )u want this toilet paper />🧻", "¯_( ͡° ͜ʖ ͡°)_/¯",
+            // ... add more from your list
+        ];
+
+        function createFloatingElement(content, isLarge = false) {
+            const elem = document.createElement('div');
+            const size = isLarge ? 
+                Math.random() * 200 + 100 : // Large size (100-300px)
+                Math.random() * 30 + 20;    // Normal size (20-50px)
+            
+            elem.style.cssText = `
+                position: fixed;
+                font-size: ${size}px;
+                left: ${Math.random() * 100}vw;
+                top: ${Math.random() * 100}vh;
+                transform: rotate(${Math.random() * 360}deg);
+                transition: all ${Math.random() * 2 + 1}s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: ${isLarge ? 9995 : 9999};
+                pointer-events: none;
+                filter: blur(${Math.random() * 2}px);
+                opacity: ${Math.random() * 0.8 + 0.2};
+                text-shadow: ${Math.random() * 10}px ${Math.random() * 10}px ${Math.random() * 20}px rgba(0,0,0,0.3);
+            `;
+            elem.textContent = content;
+            return elem;
+        }
+
+        function enhancedRearrangeLayout() {
+            const container = document.querySelector('.brew-container');
+            const items = Array.from(container.children);
+            const restoreFuncs = [];
+            
+            // Create a canvas for particle effects
+            const canvas = document.createElement('canvas');
+            canvas.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:9996;';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            document.body.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+            
+            // Particle system
+            const particles = [];
+            for(let i = 0; i < 100; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: Math.random() * 4 - 2,
+                    vy: Math.random() * 4 - 2,
+                    size: Math.random() * 5 + 2,
+                    color: `hsl(${Math.random() * 360}, 80%, 60%)`
+                });
+            }
+
+            // Floating elements container
+            const floatingContainer = document.createElement('div');
+            document.body.appendChild(floatingContainer);
+
+            // Add floating emojis and ASCII emoticons
+            function addFloatingElements() {
+                // Clear previous elements
+                floatingContainer.innerHTML = '';
+                
+                // Add large background emoticons
+                for(let i = 0; i < 5; i++) {
+                    const emoticon = createFloatingElement(
+                        asciiEmoticons[Math.floor(Math.random() * asciiEmoticons.length)],
+                        true
+                    );
+                    floatingContainer.appendChild(emoticon);
+                }
+
+                // Add normal sized mixed elements
+                for(let i = 0; i < 20; i++) {
+                    const content = Math.random() > 0.5 ? 
+                        emojis[Math.floor(Math.random() * emojis.length)] :
+                        asciiEmoticons[Math.floor(Math.random() * asciiEmoticons.length)];
+                    floatingContainer.appendChild(createFloatingElement(content));
+                }
+            }
+
+            // Animate particles
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    
+                    if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                    
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.fill();
+                });
+                
+                if(isInChaosMode) requestAnimationFrame(animateParticles);
+            }
+
+            // Start animations
+            addFloatingElements();
+            animateParticles();
+            
+            // Periodically refresh floating elements
+            const refreshInterval = setInterval(addFloatingElements, 5000);
+
+            // Add glitch effect
+            document.body.style.animation = 'glitch 0.5s infinite';
+            
+            // Add this to your style element
+            const glitchStyle = `
+                @keyframes glitch {
+                    0% { transform: translate(0) }
+                    20% { transform: translate(-2px, 2px) }
+                    40% { transform: translate(-2px, -2px) }
+                    60% { transform: translate(2px, 2px) }
+                    80% { transform: translate(2px, -2px) }
+                    100% { transform: translate(0) }
+                }
+            `;
+            document.querySelector('style').textContent += glitchStyle;
+
+            // Clean up function
+            return () => {
+                canvas.remove();
+                floatingContainer.remove();
+                clearInterval(refreshInterval);
+                document.body.style.animation = '';
+            };
+        }
+
+        function rearrangeLayout() {
+            const cleanup = enhancedRearrangeLayout();
+            
+            // Restore original layout after 60 seconds
+            return setTimeout(() => {
+                cleanup();
+                // ... rest of your original restore code ...
+            }, 60000);
+        }
+
+        function applyChaos() {
+            chaosLevel++;
+            isInChaosMode = true;
+            
+            // Visual chaos
+            document.querySelectorAll('.brew-item, .portal-link').forEach(item => {
+                applyWildTransform(item);
+                const rect = item.getBoundingClientRect();
+                createChaosEmoji(
+                    rect.left + Math.random() * rect.width,
+                    rect.top + Math.random() * rect.height,
+                    chaosLevel > 2
+                );
+            });
+
+            // Color chaos
+            document.documentElement.style.setProperty(
+                '--primary',
+                `hsl(${Math.random() * 360}, 80%, 65%)`
+            );
+
+            // Movement chaos
+            if (chaosLevel > 1) {
+                document.body.style.animation = `shake ${0.5 / chaosLevel}s infinite`;
+            }
+
+            // Create random ripples
+            for (let i = 0; i < chaosLevel * 3; i++) {
+                setTimeout(() => {
+                    createChaosRipple(
+                        Math.random() * window.innerWidth,
+                        Math.random() * window.innerHeight
+                    );
+                }, i * 200);
+            }
+
+            // Intense mode
+            if (chaosLevel > 3) {
+                document.body.style.animation = 'psychedelic 2s infinite';
+                
+                // Random text transformations
+                document.querySelectorAll('h1, h2, h3, p').forEach(element => {
+                    element.style.animation = `textWave ${Math.random() * 2 + 1}s infinite`;
+                });
+            }
+
+            // Level 4: Complete meltdown
+            if (chaosLevel === 4) {
+                rearrangeLayout();
+                // Reset after 60 seconds
+                setTimeout(() => {
+                    chaosLevel = 0;
+                    isInChaosMode = false;
+                }, 60000);
+                return; // Skip the normal reset
+            }
+
+            // Reset after chaos
+            setTimeout(() => {
+                document.querySelectorAll('.brew-item, .portal-link').forEach(item => {
+                    item.style.transform = '';
+                    item.style.transition = '';
+                });
+                
+                if (chaosLevel > 3) {
+                    chaosLevel = 0;
+                    document.body.style.animation = '';
+                    document.querySelectorAll('h1, h2, h3, p').forEach(element => {
+                        element.style.animation = '';
+                    });
+                }
+                
+                isInChaosMode = false;
+            }, 2000);
+
+            // Easter egg: Konami code during chaos
+            if (chaosLevel > 2) {
+                const konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+                let konamiIndex = 0;
+                
+                function checkKonami(e) {
+                    if (e.key === konami[konamiIndex]) {
+                        konamiIndex++;
+                        if (konamiIndex === konami.length) {
+                            superChaos();
+                            konamiIndex = 0;
+                        }
+                    } else {
+                        konamiIndex = 0;
+                    }
+                }
+                
+                document.addEventListener('keydown', checkKonami);
+                setTimeout(() => document.removeEventListener('keydown', checkKonami), 5000);
+            }
+        }
+
+        // Super chaos mode (Konami code reward)
+        function superChaos() {
+            const matrix = document.createElement('div');
+            matrix.style.position = 'fixed';
+            matrix.style.inset = '0';
+            matrix.style.background = 'rgba(0, 0, 0, 0.8)';
+            matrix.style.zIndex = '9997';
+            matrix.style.fontFamily = 'monospace';
+            matrix.style.color = '#0f0';
+            matrix.style.overflow = 'hidden';
+            document.body.appendChild(matrix);
+
+            const chars = '♠♣♥♦☺☻♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼123456789ABCDEF'.split('');
+            const columns = Math.floor(window.innerWidth / 20);
+            const drops = new Array(columns).fill(0);
+
+            function drawMatrix() {
+                let matrixText = '';
+                drops.forEach((drop, i) => {
+                    const char = chars[Math.floor(Math.random() * chars.length)];
+                    const x = i * 20;
+                    const y = drop * 20;
+                    matrixText += `<span style="position:absolute;left:${x}px;top:${y}px">${char}</span>`;
+                    drops[i] = drop >= 20 + Math.random() * 30 ? 0 : drop + 1;
+                });
+                matrix.innerHTML = matrixText;
+            }
+
+            const matrixInterval = setInterval(drawMatrix, 50);
+            setTimeout(() => {
+                clearInterval(matrixInterval);
+                matrix.remove();
+            }, 3000);
+        }
+
+        // Add these new animations to your CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px) rotate(-1deg); }
+                75% { transform: translateX(5px) rotate(1deg); }
+            }
+
+            @keyframes ripple {
+                0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                100% { transform: translate(-50%, -50%) scale(50); opacity: 0; }
+            }
+
+            @keyframes psychedelic {
+                0% { filter: hue-rotate(0deg) contrast(150%); }
+                100% { filter: hue-rotate(360deg) contrast(150%); }
+            }
+
+            @keyframes textWave {
+                0%, 100% { transform: translateY(0) rotate(0); }
+                50% { transform: translateY(-10px) rotate(${Math.random() * 10 - 5}deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Update chaos button click handler
+        chaosBtn.addEventListener('click', () => {
+            if (!isInChaosMode) {
+                applyChaos();
+                
+                // Rotate the chaos button wildly
+                chaosBtn.style.transform = `rotate(${720 + Math.random() * 360}deg)`;
+                setTimeout(() => {
+                    chaosBtn.style.transform = '';
+                }, 1000);
+            }
+        });
+
+        // Show footer when user reaches bottom
+        const footer = document.querySelector('.dynamic-footer');
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const pageHeight = document.documentElement.scrollHeight;
+            
+            if (scrollPosition >= pageHeight - 50) {
+                footer.style.opacity = '1';
+            } else {
+                footer.style.opacity = '0';
+            }
+        });
+
+        // Color theme based on time
+        function updateColors() {
+            const hour = new Date().getHours();
+            const hue = Math.floor((hour / 24) * 360);
+            document.documentElement.style.setProperty('--accent', `hsl(${hue}, 80%, 65%)`);
+        }
+
+        updateColors();
+        setInterval(updateColors, 60000);
+
+        // Add this near the top of your script section, right after the style definitions
+        const REFRESH_TRACKER = {
+            key: 'refreshData',
+            wittyMessages: [
+                "Whoa there, thought-seeker! Your refresh button needs a coffee break ☕",
+                "Error 429: Too Many Thoughts. Brain.exe is cooling down 🧊",
+                "Refresh button has gone on strike. Demands include better working conditions and more vacation days 📢",
+                "You've discovered all possible thoughts in the universe. Just kidding, but please slow down 🌌",
+                "Local thought dispenser has gone fishing 🎣 Back in 5 seconds",
+                "Achievement unlocked: Speed Philosopher! 🏆 (Now take a breather)",
+                "Instructions unclear: accidentally sent all thoughts to parallel universe 🌀",
+                "🤖 *beep boop* Thought generator needs a nap *boop beep* 💤"
+            ],
+
+            init() {
+                const now = Date.now();
+                let data = localStorage.getItem(this.key);
+                
+                if (!data) {
+                    data = { count: 1, lastRefresh: now };
+                } else {
+                    data = JSON.parse(data);
+                    const timeDiff = now - data.lastRefresh;
+                    
+                    if (timeDiff < 5000) {
+                        // Within 5 second window
+                        data.count++;
+                    } else {
+                        // Reset if outside window
+                        data.count = 1;
+                    }
+                    data.lastRefresh = now;
+                }
+                
+                localStorage.setItem(this.key, JSON.stringify(data));
+                return data;
+            },
+
+            shouldShowThought() {
+                const data = this.init();
+                const thoughtElement = document.querySelector('.random-thought');
+                
+                if (data.count > 3) {
+                    // Get random witty message
+                    const wittyMessage = this.wittyMessages[
+                        Math.floor(Math.random() * this.wittyMessages.length)
+                    ];
+                    
+                    // Apply glitch effect to the message
+                    thoughtElement.innerHTML = `<em class="glitch-text">${wittyMessage}</em>`;
+                    thoughtElement.style.animation = 'glitch 0.3s infinite';
+                    
+                    // Auto-reset after 5 seconds
+                    setTimeout(() => {
+                        localStorage.setItem(this.key, JSON.stringify({
+                            count: 0,
+                            lastRefresh: Date.now()
+                        }));
+                        thoughtElement.style.animation = '';
+                    }, 5000);
+                    
+                    return false;
+                }
+                
+                return true;
+            }
+        };
+
+        // Update the scroll event listener
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const pageHeight = document.documentElement.scrollHeight;
+            const footer = document.querySelector('.dynamic-footer');
+            
+            if (scrollPosition >= pageHeight - 50) {
+                if (!footer.style.opacity || footer.style.opacity === '0') {
+                    if (REFRESH_TRACKER.shouldShowThought()) {
+                        footer.style.opacity = '1';
+                    }
+                }
+            } else {
+                footer.style.opacity = '0';
+            }
+        });
+
+        // Check for rapid refreshes on page load
+        if (!REFRESH_TRACKER.shouldShowThought()) {
+            const footer = document.querySelector('.dynamic-footer');
+            footer.style.opacity = '1';
+        }
+
+        const themeToggle = document.querySelector('.theme-toggle');
+        const root = document.documentElement;
+
+        // Generate pastel/funky color palettes
+        function generatePalette(isDark) {
+            const palettes = {
+                light: [
+                    {
+                        primary: 'hsl(330, 80%, 75%)',  // Pastel pink
+                        background: 'hsl(60, 30%, 96%)', // Warm white
+                        text: 'hsl(250, 25%, 25%)',     // Deep purple-grey
+                        border: 'hsl(330, 30%, 90%)',   // Light pink
+                        shadow: 'hsla(330, 50%, 50%, 0.1)'
+                    },
+                    {
+                        primary: 'hsl(180, 70%, 75%)',  // Pastel turquoise
+                        background: 'hsl(180, 25%, 95%)', // Cool white
+                        text: 'hsl(200, 30%, 20%)',     // Deep blue-grey
+                        border: 'hsl(180, 30%, 90%)',   // Light turquoise
+                        shadow: 'hsla(180, 50%, 50%, 0.1)'
+                    },
+                    {
+                        primary: 'hsl(280, 70%, 75%)',  // Pastel purple
+                        background: 'hsl(280, 20%, 97%)', // Light lavender
+                        text: 'hsl(280, 25%, 20%)',     // Deep purple
+                        border: 'hsl(280, 30%, 90%)',   // Light purple
+                        shadow: 'hsla(280, 50%, 50%, 0.1)'
+                    }
+                ],
+                dark: [
+                    {
+                        primary: 'hsl(330, 80%, 65%)',  // Neon pink
+                        background: 'hsl(250, 25%, 15%)', // Deep purple-grey
+                        text: 'hsl(60, 30%, 90%)',      // Warm white
+                        border: 'hsl(330, 50%, 25%)',   // Dark pink
+                        shadow: 'hsla(330, 80%, 50%, 0.2)'
+                    },
+                    {
+                        primary: 'hsl(180, 70%, 65%)',  // Neon turquoise
+                        background: 'hsl(200, 30%, 12%)', // Deep blue-grey
+                        text: 'hsl(180, 25%, 90%)',     // Light turquoise
+                        border: 'hsl(180, 50%, 25%)',   // Dark turquoise
+                        shadow: 'hsla(180, 80%, 50%, 0.2)'
+                    },
+                    {
+                        primary: 'hsl(280, 70%, 65%)',  // Neon purple
+                        background: 'hsl(280, 25%, 12%)', // Deep purple
+                        text: 'hsl(280, 20%, 90%)',     // Light lavender
+                        border: 'hsl(280, 50%, 25%)',   // Dark purple
+                        shadow: 'hsla(280, 80%, 50%, 0.2)'
+                    }
+                ]
+            };
+
+            const mode = isDark ? 'dark' : 'light';
+            return palettes[mode][Math.floor(Math.random() * palettes[mode].length)];
+        }
+
+        // Apply theme and save preference
+        function setTheme(isDark) {
+            const palette = generatePalette(isDark);
+            root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            
+            // Apply colors with transition
+            root.style.setProperty('--primary', palette.primary);
+            root.style.setProperty('--background', palette.background);
+            root.style.setProperty('--text', palette.text);
+            root.style.setProperty('--border', palette.border);
+            root.style.setProperty('--shadow', palette.shadow);
+            
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            
+            // Animate the toggle button
+            themeToggle.style.transform = `rotate(${Math.random() * 360}deg)`;
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') === 'dark';
+        setTheme(savedTheme);
+
+        // Toggle theme on click
+        themeToggle.addEventListener('click', () => {
+            const isDark = root.getAttribute('data-theme') !== 'dark';
+            setTheme(isDark);
+            
+            // Add particle effect
+            const rect = themeToggle.getBoundingClientRect();
+            createParticles(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        });
+
+        // Add smooth transitions for color changes
+        const colorTransition = document.createElement('style');
+        colorTransition.textContent = `
+            :root {
+                transition: --primary 0.3s ease,
+                            --background 0.3s ease,
+                            --text 0.3s ease,
+                            --border 0.3s ease,
+                            --shadow 0.3s ease;
+            }
+        `;
+        document.head.appendChild(colorTransition);
+    </script>
+</body>
+</html> 

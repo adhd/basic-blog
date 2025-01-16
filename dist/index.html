@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Blog</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--background);
+            cursor: pointer;
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(45deg);
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            transform: rotate(180deg);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            transform: rotate(225deg);
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" title="Toggle theme">🌈</button>
+    <button class="nav-toggle" title="Toggle Navigation"></button>
+    <div class="nav-trigger"></div>
+    <header>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/blog">Blog</a>
+            <a href="/about">About</a>
+            <a href="/faq">FAQ</a>
+            <a href="/contact">Contact</a>
+        </nav>
+    </header>
+    
+    <main>
+        <h1>Welcome to My Website</h1>
+<p>This is a simple, fast-loading website built with basic web technologies. No frameworks, no complexity - just clean, efficient code.</p>
+<h2>Latest Blog Posts</h2>
+<ul>
+<li>[Coming soon...]</li>
+</ul>
+<h2>Get in Touch</h2>
+<p>Feel free to <a href="/contact">contact me</a> or learn more <a href="/about">about me</a>.</p>
+<div class="brew-container">
+  <h1 class="brew-title">Currently Brewing</h1>
+  
+  <div class="brew-grid">
+    <div class="brew-item large">
+      <span class="brew-status">Percolating</span>
+      <h2>Neural Gardening</h2>
+      <p>Teaching AI to appreciate dad jokes through interpretive dance</p>
+      <div class="brew-progress"></div>
+    </div>
+
+<pre><code>&lt;div class=&quot;brew-item&quot;&gt;
+  &lt;span class=&quot;brew-status&quot;&gt;Steeping&lt;/span&gt;
+  &lt;h2&gt;Time Origami&lt;/h2&gt;
+  &lt;p&gt;Folding moments into paper cranes until they fly&lt;/p&gt;
+  &lt;div class=&quot;brew-progress&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;brew-item accent&quot;&gt;
+  &lt;span class=&quot;brew-status&quot;&gt;Distilling&lt;/span&gt;
+  &lt;h2&gt;Quantum Doodling&lt;/h2&gt;
+  &lt;p&gt;Drawing in multiple dimensions simultaneously&lt;/p&gt;
+  &lt;div class=&quot;brew-progress&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;brew-item&quot;&gt;
+  &lt;span class=&quot;brew-status&quot;&gt;Fermenting&lt;/span&gt;
+  &lt;h2&gt;Digital Archaeology&lt;/h2&gt;
+  &lt;p&gt;Excavating forgotten tabs from Chrome&#39;s ancient history&lt;/p&gt;
+  &lt;div class=&quot;brew-progress&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+  </div>
+
+  <nav class="portal-links">
+    <a href="/blog" class="portal-link">
+      <span class="portal-icon">→</span>
+      <div class="portal-text">
+        <h3>Down the Rabbit Hole</h3>
+        <p>Where thoughts go to multiply</p>
+      </div>
+    </a>
+    
+<pre><code>&lt;a href=&quot;/about&quot; class=&quot;portal-link&quot;&gt;
+  &lt;span class=&quot;portal-icon&quot;&gt;←&lt;/span&gt;
+  &lt;div class=&quot;portal-text&quot;&gt;
+    &lt;h3&gt;Into the Brain Archive&lt;/h3&gt;
+    &lt;p&gt;Warning: May contain traces of genius and/or madness&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+
+&lt;a href=&quot;/contact&quot; class=&quot;portal-link&quot;&gt;
+  &lt;span class=&quot;portal-icon&quot;&gt;↓&lt;/span&gt;
+  &lt;div class=&quot;portal-text&quot;&gt;
+    &lt;h3&gt;Send Thought Signals&lt;/h3&gt;
+    &lt;p&gt;Telepathy currently in beta testing&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+</code></pre>
+  </nav>
+</div>
+
+<p><button class="chaos-btn" title="Recalibrate Reality">↺</button></p>
+<script>
+// Brew progress animation
+document.querySelectorAll('.brew-progress').forEach(progress => {
+  progress.style.width = `${Math.random() * 60 + 40}%`;
+});
+
+// Floating elements
+document.querySelectorAll('.brew-item').forEach(item => {
+  let float = 0;
+  setInterval(() => {
+    float = Math.sin(Date.now() / 1000) * 5;
+    item.style.transform = `translateY(${float}px)`;
+  }, 50);
+});
+
+// Chaos generator with improved animation
+document.querySelector('.chaos-btn').addEventListener('click', () => {
+  document.querySelectorAll('.brew-item').forEach(item => {
+    const randomX = Math.random() * 40 - 20;
+    const randomY = Math.random() * 40 - 20;
+    const randomRotate = Math.random() * 8 - 4;
+    item.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
+    setTimeout(() => item.style.transform = '', 1000);
+  });
+});
+
+// Color theme based on time
+function updateColors() {
+  const hour = new Date().getHours();
+  const hue = Math.floor((hour / 24) * 360);
+  document.documentElement.style.setProperty('--accent', `hsl(${hue}, 80%, 65%)`);
+}
+
+updateColors();
+setInterval(updateColors, 60000);
+</script>
+
+    </main>
+
+    <footer class="dynamic-footer" style="opacity: 0; transition: opacity 0.3s ease;">
+        <p>You've reached the bottom of the page. Congrats on making it this far.</p>
+        <p class="random-thought">Here's a thought: <em>{{random_quote}}</em></p>
+    </footer>
+
+    <script>
+        // Show footer when user reaches bottom
+        const footer = document.querySelector('.dynamic-footer');
+        
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const pageHeight = document.documentElement.scrollHeight;
+            
+            if (scrollPosition >= pageHeight - 50) {
+                footer.style.opacity = '1';
+            } else {
+                footer.style.opacity = '0';
+            }
+        });
+
+        const header = document.querySelector('header');
+        const navToggle = document.querySelector('.nav-toggle');
+        
+        navToggle.addEventListener('click', () => {
+            header.classList.toggle('visible');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!header.contains(e.target) && 
+                !navToggle.contains(e.target) && 
+                !e.target.classList.contains('nav-trigger')) {
+                header.classList.remove('visible');
+            }
+        });
+
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        const root = document.documentElement;
+
+        function generatePalette(isDark) {
+            const palettes = {
+                light: [
+                    {
+                        primary: 'hsl(330, 80%, 75%)',  // Pastel pink
+                        background: 'hsl(60, 30%, 96%)', // Warm white
+                        text: 'hsl(250, 25%, 25%)',     // Deep purple-grey
+                        border: 'hsl(330, 30%, 90%)',   // Light pink
+                        shadow: 'hsla(330, 50%, 50%, 0.1)'
+                    },
+                    {
+                        primary: 'hsl(180, 70%, 75%)',  // Pastel turquoise
+                        background: 'hsl(180, 25%, 95%)', // Cool white
+                        text: 'hsl(200, 30%, 20%)',     // Deep blue-grey
+                        border: 'hsl(180, 30%, 90%)',   // Light turquoise
+                        shadow: 'hsla(180, 50%, 50%, 0.1)'
+                    },
+                    {
+                        primary: 'hsl(280, 70%, 75%)',  // Pastel purple
+                        background: 'hsl(280, 20%, 97%)', // Light lavender
+                        text: 'hsl(280, 25%, 20%)',     // Deep purple
+                        border: 'hsl(280, 30%, 90%)',   // Light purple
+                        shadow: 'hsla(280, 50%, 50%, 0.1)'
+                    }
+                ],
+                dark: [
+                    {
+                        primary: 'hsl(330, 80%, 65%)',  // Neon pink
+                        background: 'hsl(250, 25%, 15%)', // Deep purple-grey
+                        text: 'hsl(60, 30%, 90%)',      // Warm white
+                        border: 'hsl(330, 50%, 25%)',   // Dark pink
+                        shadow: 'hsla(330, 80%, 50%, 0.2)'
+                    },
+                    {
+                        primary: 'hsl(180, 70%, 65%)',  // Neon turquoise
+                        background: 'hsl(200, 30%, 12%)', // Deep blue-grey
+                        text: 'hsl(180, 25%, 90%)',     // Light turquoise
+                        border: 'hsl(180, 50%, 25%)',   // Dark turquoise
+                        shadow: 'hsla(180, 80%, 50%, 0.2)'
+                    },
+                    {
+                        primary: 'hsl(280, 70%, 65%)',  // Neon purple
+                        background: 'hsl(280, 25%, 12%)', // Deep purple
+                        text: 'hsl(280, 20%, 90%)',     // Light lavender
+                        border: 'hsl(280, 50%, 25%)',   // Dark purple
+                        shadow: 'hsla(280, 80%, 50%, 0.2)'
+                    }
+                ]
+            };
+
+            const mode = isDark ? 'dark' : 'light';
+            return palettes[mode][Math.floor(Math.random() * palettes[mode].length)];
+        }
+
+        function setTheme(isDark) {
+            const palette = generatePalette(isDark);
+            root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            
+            // Apply colors with transition
+            root.style.setProperty('--primary', palette.primary);
+            root.style.setProperty('--background', palette.background);
+            root.style.setProperty('--text', palette.text);
+            root.style.setProperty('--border', palette.border);
+            root.style.setProperty('--shadow', palette.shadow);
+            
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            
+            // Animate the toggle button
+            themeToggle.style.transform = `rotate(${Math.random() * 360}deg)`;
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') === 'dark';
+        setTheme(savedTheme);
+
+        // Toggle theme on click
+        themeToggle.addEventListener('click', () => {
+            const isDark = root.getAttribute('data-theme') !== 'dark';
+            setTheme(isDark);
+            
+            // Add particle effect
+            const rect = themeToggle.getBoundingClientRect();
+            createParticles(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        });
+    </script>
+</body>
+</html> 

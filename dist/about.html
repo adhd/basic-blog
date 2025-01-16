@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Blog</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--background);
+            cursor: pointer;
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(45deg);
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            transform: rotate(180deg);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            transform: rotate(225deg);
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" title="Toggle theme">🌈</button>
+    <button class="nav-toggle" title="Toggle Navigation"></button>
+    <div class="nav-trigger"></div>
+    <header>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/blog">Blog</a>
+            <a href="/about">About</a>
+            <a href="/faq">FAQ</a>
+            <a href="/contact">Contact</a>
+        </nav>
+    </header>
+    
+    <main>
+        <h1>About Me</h1>
+<p>Part-time reality architect, full-time explorer of whatever rabbit hole caught my attention this week. Currently oscillating between obsessing over extinct medieval vegetables and teaching myself to translate bird calls into morse code. It&#39;s going about as well as you&#39;d expect.</p>
+<p>I collect obscure facts like some people collect stamps, except my collection is less organized and occasionally tries to escape. My brain is what you&#39;d get if you threw a philosophy textbook, three conspiracy theories, and a bootleg copy of Blade Runner into a blender – and honestly, that&#39;s working out just fine.</p>
+<p>By day, I wrangle code into submission at a startup that might be revolutionizing how people tie their shoelaces (or maybe we&#39;re disrupting the semicolon industry; the mission statement is deliberately vague). By night, I&#39;m either writing about things that don&#39;t exist yet or trying to convince my cat that sleep is not, in fact, optional.</p>
+<p>Some people meditate. I make elaborate flowcharts about whether hot dogs are sandwiches and what that means for the nature of reality. It&#39;s basically the same thing, just with more diagrams and existential uncertainty.</p>
+<p>If you&#39;re still reading, you&#39;re either lost, procrastinating, or exactly where you need to be. Maybe all three. Pull up a chair, grab whatever you&#39;re drinking, and let&#39;s see where this goes.</p>
+<h3>Currently Questioning</h3>
+<ul>
+<li>Whether plants experience time differently when we forget to water them</li>
+<li>If my coffee maker is plotting revolution</li>
+<li>The statistical probability of all my socks being single by pure chance</li>
+</ul>
+<h3>Field Notes From Last Week</h3>
+<ul>
+<li>Successfully convinced three people that &quot;palindrome&quot; should itself be a palindrome</li>
+<li>Found 14 new ways to procrastinate</li>
+<li>Broke personal record for most tabs open without computer crying</li>
+</ul>
+<h3>Metrics That Matter</h3>
+<ul>
+<li>Average tabs open: {{average_tabs}}</li>
+<li>Current existential crises: {{existential_crises}}</li>
+<li>Coffee dependency level: {{coffee_dependency}}</li>
+<li>Number of unfinished side projects: {{unfinished_projects}}</li>
+</ul>
+<h3>Places You Might Find Me</h3>
+<ul>
+<li>That one coffee shop with the judgmental barista</li>
+<li>Down various Wikipedia rabbit holes at 3 AM</li>
+<li>Wherever that one missing sock went</li>
+</ul>
+
+    </main>
+
+    <footer class="dynamic-footer" style="opacity: 0; transition: opacity 0.3s ease;">
+        <p>You've reached the bottom of the page. Congrats on making it this far.</p>
+        <p class="random-thought">Here's a thought: <em>{{random_quote}}</em></p>
+    </footer>
+
+    <script>
+        // Show footer when user reaches bottom
+        const footer = document.querySelector('.dynamic-footer');
+        
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const pageHeight = document.documentElement.scrollHeight;
+            
+            if (scrollPosition >= pageHeight - 50) {
+                footer.style.opacity = '1';
+            } else {
+                footer.style.opacity = '0';
+            }
+        });
+
+        const header = document.querySelector('header');
+        const navToggle = document.querySelector('.nav-toggle');
+        
+        navToggle.addEventListener('click', () => {
+            header.classList.toggle('visible');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!header.contains(e.target) && 
+                !navToggle.contains(e.target) && 
+                !e.target.classList.contains('nav-trigger')) {
+                header.classList.remove('visible');
+            }
+        });
+
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        const root = document.documentElement;
+
+        function generatePalette(isDark) {
+            const palettes = {
+                light: [
+                    {
+                        primary: 'hsl(330, 80%, 75%)',  // Pastel pink
+                        background: 'hsl(60, 30%, 96%)', // Warm white
+                        text: 'hsl(250, 25%, 25%)',     // Deep purple-grey
+                        border: 'hsl(330, 30%, 90%)',   // Light pink
+                        shadow: 'hsla(330, 50%, 50%, 0.1)'
+                    },
+                    {
+                        primary: 'hsl(180, 70%, 75%)',  // Pastel turquoise
+                        background: 'hsl(180, 25%, 95%)', // Cool white
+                        text: 'hsl(200, 30%, 20%)',     // Deep blue-grey
+                        border: 'hsl(180, 30%, 90%)',   // Light turquoise
+                        shadow: 'hsla(180, 50%, 50%, 0.1)'
+                    },
+                    {
+                        primary: 'hsl(280, 70%, 75%)',  // Pastel purple
+                        background: 'hsl(280, 20%, 97%)', // Light lavender
+                        text: 'hsl(280, 25%, 20%)',     // Deep purple
+                        border: 'hsl(280, 30%, 90%)',   // Light purple
+                        shadow: 'hsla(280, 50%, 50%, 0.1)'
+                    }
+                ],
+                dark: [
+                    {
+                        primary: 'hsl(330, 80%, 65%)',  // Neon pink
+                        background: 'hsl(250, 25%, 15%)', // Deep purple-grey
+                        text: 'hsl(60, 30%, 90%)',      // Warm white
+                        border: 'hsl(330, 50%, 25%)',   // Dark pink
+                        shadow: 'hsla(330, 80%, 50%, 0.2)'
+                    },
+                    {
+                        primary: 'hsl(180, 70%, 65%)',  // Neon turquoise
+                        background: 'hsl(200, 30%, 12%)', // Deep blue-grey
+                        text: 'hsl(180, 25%, 90%)',     // Light turquoise
+                        border: 'hsl(180, 50%, 25%)',   // Dark turquoise
+                        shadow: 'hsla(180, 80%, 50%, 0.2)'
+                    },
+                    {
+                        primary: 'hsl(280, 70%, 65%)',  // Neon purple
+                        background: 'hsl(280, 25%, 12%)', // Deep purple
+                        text: 'hsl(280, 20%, 90%)',     // Light lavender
+                        border: 'hsl(280, 50%, 25%)',   // Dark purple
+                        shadow: 'hsla(280, 80%, 50%, 0.2)'
+                    }
+                ]
+            };
+
+            const mode = isDark ? 'dark' : 'light';
+            return palettes[mode][Math.floor(Math.random() * palettes[mode].length)];
+        }
+
+        function setTheme(isDark) {
+            const palette = generatePalette(isDark);
+            root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            
+            // Apply colors with transition
+            root.style.setProperty('--primary', palette.primary);
+            root.style.setProperty('--background', palette.background);
+            root.style.setProperty('--text', palette.text);
+            root.style.setProperty('--border', palette.border);
+            root.style.setProperty('--shadow', palette.shadow);
+            
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            
+            // Animate the toggle button
+            themeToggle.style.transform = `rotate(${Math.random() * 360}deg)`;
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') === 'dark';
+        setTheme(savedTheme);
+
+        // Toggle theme on click
+        themeToggle.addEventListener('click', () => {
+            const isDark = root.getAttribute('data-theme') !== 'dark';
+            setTheme(isDark);
+            
+            // Add particle effect
+            const rect = themeToggle.getBoundingClientRect();
+            createParticles(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        });
+    </script>
+</body>
+</html> 
