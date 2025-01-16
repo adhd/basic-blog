@@ -1,7 +1,7 @@
 ---
 title: The Expertise Bubble
 date: 2025-01-12
-tags: tech
+tags: tech, ai
 ---
 
 Here's a fun thought experiment: What if everything we think we know about expertise is about to become hilariously wrong?

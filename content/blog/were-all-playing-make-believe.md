@@ -1,7 +1,7 @@
 ---
 title: We're All Playing Make Believe
 date: 2025-01-16
-tags: thoughts, tech, society
+tags: tech, society
 ---
 
 I can't stop thinking about how we're all just pretending.

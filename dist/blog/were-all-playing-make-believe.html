@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Your Blog</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/textEffects.js" defer></script>
     <style>
         .theme-toggle {
             position: fixed;
@@ -39,9 +40,11 @@
     </style>
 </head>
 <body>
-    <button class="theme-toggle" title="Toggle theme">🌈</button>
-    <button class="nav-toggle" title="Toggle Navigation"></button>
-    <div class="nav-trigger"></div>
+    <div class="fixed-buttons">
+        <button class="nav-toggle" title="Toggle Navigation"></button>
+        <button class="theme-toggle" title="Toggle theme">🌈</button>
+    </div>
+    
     <header>
         <nav>
             <a href="/">Home</a>
@@ -56,7 +59,7 @@
         <hr>
 <h2>title: We&#39;re All Playing Make Believe
 date: 2025-01-16
-tags: thoughts, tech, society</h2>
+tags: tech, society</h2>
 <p>I can&#39;t stop thinking about how we&#39;re all just pretending.</p>
 <p>Look at my browser tabs right now: 16 half-read articles about bubbles and progress, 3 Twitter threads about AI risk, and somehow a Wikipedia page about medieval farming practices (don&#39;t ask). We&#39;re all so busy consuming content about doing things that we&#39;ve forgotten how to actually do things.</p>
 <p>The tech guys heading to DC keep talking about bubbles like they&#39;ve discovered some cosmic cheat code. Build enough hype, pour enough money in, and somehow we&#39;ll manifest the future through sheer force of PowerPoint presentations. I get it. I really do. I&#39;ve sat through enough pitch meetings to see the intoxicating appeal of treating progress like a startup metric.</p>

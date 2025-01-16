@@ -241,6 +241,7 @@
     </style>
 </head>
 <body>
+    <div id="particles-js" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></div>
     <button class="nav-toggle" title="Toggle Navigation"></button>
     <button class="theme-toggle" title="Toggle theme">🌈</button>
     <div class="nav-trigger"></div>
@@ -289,6 +290,8 @@
         <p>You've reached the bottom of the page. Congrats on making it this far.</p>
         <p class="random-thought">Here's a thought: <em>{{random_quote}}</em></p>
     </footer>
+
+    <script src="/js/voidEffects.js"></script>
 
     <script>
         const DEBUG = true;

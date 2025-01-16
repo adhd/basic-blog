@@ -27,8 +27,8 @@ async function renderPage(templatePath, content, res) {
         const template = await fs.readFile(path.join(__dirname, 'templates/base.html'), 'utf-8');
         let htmlContent;
 
-        // If content is a file path, read and process it
-        if (content.includes('/')) {
+        // If content is a file path AND exists as a file
+        if (content.includes('/') && !content.includes('<')) {
             const fileContent = await fs.readFile(content, 'utf-8');
             htmlContent = marked(fileContent);
         } else {
@@ -36,18 +36,13 @@ async function renderPage(templatePath, content, res) {
             htmlContent = marked(content);
         }
         
-        // Add wrapper div for special pages
-        let wrappedContent = htmlContent;
-        if (content.includes('about')) {
-            wrappedContent = `<div class="about-content">${htmlContent}</div>`;
-        } else if (content.includes('faq')) {
-            wrappedContent = `<div class="faq-content">${htmlContent}</div>`;
-        }
-        
-        const randomQuote = getRandomQuote();
+        // Get a random quote
+        const quote = getRandomQuote();
+
+        // Replace template variables
         const page = template
-            .replace('{{content}}', wrappedContent)
-            .replace('{{random_quote}}', randomQuote);
+            .replace('{{content}}', htmlContent)
+            .replace('{{random_quote}}', quote);
         
         res.send(page);
     } catch (error) {
@@ -72,7 +67,6 @@ app.get('/', async (req, res) => {
 // Add the /blog route before the generic /:page route
 app.get('/blog', async (req, res) => {
   try {
-    const template = await fs.readFile(path.join(__dirname, 'templates/base.html'), 'utf-8');
     const page = parseInt(req.query.page) || 1;
     const tag = req.query.tag || null;
     
@@ -81,7 +75,7 @@ app.get('/blog', async (req, res) => {
     
     let content = '# Blog Posts\n\n';
     
-    // Add tag filter UI with better formatting
+    // Add tag filter UI
     content += '<div class="tags-container">\n';
     content += tags.map(({ tag, count }) => 
       `<a href="${tag === req.query.tag ? '/blog' : `/blog?tag=${tag}`}" class="tag">
@@ -90,7 +84,7 @@ app.get('/blog', async (req, res) => {
     ).join('\n');
     content += '\n</div>\n\n';
     
-    // Add posts with better formatting
+    // Add posts
     if (posts.length === 0) {
       content += '<div class="no-posts">*No posts found.*</div>\n\n';
     } else {
@@ -113,7 +107,7 @@ app.get('/blog', async (req, res) => {
       content += '</div>\n';
     }
     
-    // Add pagination with better formatting
+    // Add pagination
     if (pagination.totalPages > 1) {
       content += '<nav class="pagination">\n';
       
@@ -138,9 +132,9 @@ app.get('/blog', async (req, res) => {
       content += '</nav>\n';
     }
     
-    const htmlContent = marked(content);
-    const renderedPage = template.replace('{{content}}', htmlContent);
-    res.send(renderedPage);
+    // Use the renderPage helper instead of direct template manipulation
+    await renderPage('templates/base.html', content, res);
+    
   } catch (error) {
     console.error('Blog index error:', error);
     res.status(500).send('Error loading blog posts');
@@ -149,18 +143,14 @@ app.get('/blog', async (req, res) => {
 
 app.get('/blog/:post', async (req, res) => {
   try {
-    const template = await fs.readFile(path.join(__dirname, 'templates/base.html'), 'utf-8');
     const postPath = path.join(__dirname, `../content/blog/${req.params.post}.md`);
     const content = await fs.readFile(postPath, 'utf-8');
     
-    // Parse the frontmatter and content
     const { metadata, markdown } = parsePostMetadata(content);
     
-    // Create formatted content with metadata
     let formattedContent = `<article class="blog-post">\n`;
     formattedContent += `<h1>${metadata.title}</h1>\n`;
     
-    // Add subtitle if it exists in metadata
     if (metadata.subtitle) {
       formattedContent += `<p class="post-subtitle">${metadata.subtitle}</p>\n`;
     }
@@ -169,7 +159,6 @@ app.get('/blog/:post', async (req, res) => {
       <time datetime="${metadata.date}">${metadata.date}</time>
     </div>\n`;
     
-    // Add tags if they exist
     if (metadata.tags && metadata.tags.length) {
       formattedContent += '<div class="post-tags">\n';
       formattedContent += metadata.tags.map(tag => 
@@ -178,12 +167,12 @@ app.get('/blog/:post', async (req, res) => {
       formattedContent += '</div>\n';
     }
     
-    // Add the main content
-    formattedContent += `<div class="post-content">\n${marked(markdown)}\n</div>`;
+    formattedContent += `<div class="post-content blog-content">\n${marked(markdown)}\n</div>`;
     formattedContent += '</article>';
     
-    const renderedPage = template.replace('{{content}}', formattedContent);
-    res.send(renderedPage);
+    // Use the renderPage helper instead of direct template manipulation
+    await renderPage('templates/base.html', formattedContent, res);
+    
   } catch (error) {
     console.error('Blog post error:', error);
     res.status(404).send('Blog post not found');

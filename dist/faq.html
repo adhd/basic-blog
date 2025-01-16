@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Your Blog</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/textEffects.js" defer></script>
     <style>
         .theme-toggle {
             position: fixed;
@@ -39,9 +40,11 @@
     </style>
 </head>
 <body>
-    <button class="theme-toggle" title="Toggle theme">🌈</button>
-    <button class="nav-toggle" title="Toggle Navigation"></button>
-    <div class="nav-trigger"></div>
+    <div class="fixed-buttons">
+        <button class="nav-toggle" title="Toggle Navigation"></button>
+        <button class="theme-toggle" title="Toggle theme">🌈</button>
+    </div>
+    
     <header>
         <nav>
             <a href="/">Home</a>
