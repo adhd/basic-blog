@@ -20,6 +20,7 @@ A dynamic blog platform with some unconventional features. Built with Node.js an
   - Project status adapts to day of week
 
 ## Project Structure
+
 ├── content/
 │ ├── blog/ # Markdown blog posts
 │ └── pages/ # Static page content
@@ -30,7 +31,6 @@ A dynamic blog platform with some unconventional features. Built with Node.js an
 │ ├── utils/ # Helper functions
 │ └── server.js # Express server
 
-
 ## Quick Start
 
 bash
@@ -38,13 +38,17 @@ npm install
 npm start
 :
 markdown
+
 ---
+
 title: Post Title
 date: YYYY-MM-DD
 tags: [tag1, tag2]
+
 ---
 
 ### Static Pages
+
 Add `.md` files to `content/pages/`
 
 ## Key Components
@@ -58,4 +62,4 @@ Add `.md` files to `content/pages/`
 
 - Messages in The Void persist via localStorage
 - Theme preferences are saved between sessions
-- Particle effects trigger on navigation/theme 
+- Particle effects trigger on navigation/theme
