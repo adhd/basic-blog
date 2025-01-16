@@ -9,6 +9,10 @@
   --border: #e5e7eb;
   --shadow: rgba(0, 0, 0, 0.05);
   --radius: 8px;
+  --base-font-size: clamp(16px, 3vw, 18px);
+  --h1-size: clamp(2rem, 5vw, 3rem);
+  --h2-size: clamp(1.5rem, 4vw, 2rem);
+  --h3-size: clamp(1.2rem, 3vw, 1.5rem);
 }
 
 /* Import modern font */
@@ -19,6 +23,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* Base styles */
@@ -27,9 +34,10 @@ body {
   line-height: 1.6;
   color: var(--text);
   background-color: var(--background);
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  font-size: var(--base-font-size);
 }
 
 /* Typography */
@@ -41,12 +49,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: var(--h1-size);
   margin-top: 0;
 }
 
-h2 { font-size: 1.75rem; }
-h3 { font-size: 1.5rem; }
+h2 { font-size: var(--h2-size); }
+h3 { font-size: var(--h3-size); }
 
 p, ul, ol {
   margin-bottom: 1.5rem;
@@ -147,6 +155,10 @@ nav a:hover::after {
 /* Main content */
 main {
   padding-top: 4rem;
+  width: 95%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
 }
 
 /* Blog posts */
@@ -290,6 +302,26 @@ footer {
 
   .post-preview {
     padding: 1.5rem;
+  }
+
+  .void-container,
+  .blog-posts,
+  .about-content,
+  .faq-content {
+    padding: 1rem;
+  }
+
+  /* Adjust nav toggle position */
+  .nav-toggle {
+    top: 1rem;
+    left: 1rem;
+  }
+
+  /* Adjust message form on void page */
+  .message-form {
+    width: 90%;
+    padding: 1rem;
+    bottom: 1rem;
   }
 }
 
@@ -1029,4 +1061,188 @@ header.visible ~ .nav-toggle::before {
   height: 8px;
   z-index: 1002;
   animation: particle 0.6s ease-out forwards;
+}
+
+/* Better touch targets */
+button,
+.nav-toggle,
+.theme-toggle,
+.tag,
+.portal-link {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.8rem;
+}
+
+/* Mobile navigation */
+@media (max-width: 768px) {
+    header {
+        width: 100%;
+        height: 100vh; /* Full viewport height */
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: var(--background);
+        position: fixed;
+        top: 0; /* Start from top */
+        left: 0;
+        right: 0;
+        bottom: 0; /* Extend to bottom */
+        z-index: 1000;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        display: flex;
+        flex-direction: column;
+    }
+
+    header.visible {
+        max-height: 100vh;
+    }
+
+    nav {
+        flex-direction: column;
+        padding: 1rem;
+        margin-top: 4rem; /* Space for fixed buttons */
+        height: 100%; /* Take full height */
+        display: flex;
+        justify-content: center; /* Center items vertically */
+    }
+
+    nav a {
+        padding: 1rem;
+        width: 100%;
+        text-align: center;
+        border-radius: var(--radius);
+        margin: 0.5rem 0;
+        font-size: 1.1rem;
+        letter-spacing: 0.5px;
+        background: transparent;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    nav a::after {
+        content: "→";
+        margin-left: 0.5rem;
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.2s ease;
+    }
+
+    nav a:hover::after {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    nav a:hover {
+        background: rgba(var(--primary-rgb), 0.1);
+    }
+}
+
+/* Fixed position buttons container */
+.fixed-buttons {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    z-index: 1001;
+}
+
+/* Base styles for both buttons */
+.nav-toggle,
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--background);
+    cursor: pointer;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px var(--shadow);
+    padding: 0;
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 40px;
+    text-align: center;
+}
+
+/* Menu button icon */
+.nav-toggle::before {
+    content: "⋮";
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Remove any individual positioning */
+@media (max-width: 768px) {
+    .nav-toggle,
+    .theme-toggle {
+        position: relative;
+        top: unset;
+        left: unset;
+        right: unset;
+    }
+
+    header {
+        top: calc(40px + 2rem);
+    }
+}
+
+/* About page styling - Mobile specific adjustments */
+@media (max-width: 768px) {
+    .about-content {
+        padding: 1rem;
+        margin: 0 auto;
+    }
+
+    .about-content h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .about-content h3 {
+        font-size: 1.1rem;
+        margin-top: 2rem;
+        margin-left: 1.5rem; /* Give space for the '//' marker */
+        padding-right: 1rem;
+    }
+
+    .about-content h3::before {
+        left: -1.5rem; /* Adjust '//' position */
+    }
+
+    .about-content p {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        padding: 0 0.5rem;
+    }
+
+    .about-content ul {
+        margin: 1rem 0.5rem;
+    }
+
+    .about-content ul li {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 0.75rem;
+        padding-left: 1.25rem;
+    }
+
+    .about-content ul li::before {
+        left: 0;
+    }
 } 
