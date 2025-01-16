@@ -21,6 +21,7 @@ A dynamic blog platform with some unconventional features. Built with Node.js an
 
 ## Project Structure
 
+```
 .
 ├── src/
 │ ├── server.js # Main Express server
@@ -42,6 +43,7 @@ A dynamic blog platform with some unconventional features. Built with Node.js an
 │ └── pages/ # Markdown static pages
 │ └── _.md
 └── package.json
+```
 
 Key aspects:
 
