@@ -223,7 +223,20 @@ app.get('/about', async (req, res) => {
     }
 });
 
-// This should be last as it's a catch-all route
+// Add this BEFORE the /:page catch-all route
+app.get('/void', async (req, res) => {
+    try {
+        console.log('Loading void page...');
+        const template = await fs.readFile(path.join(__dirname, 'templates/void.html'), 'utf-8');
+        console.log('Template loaded successfully');
+        res.send(template);
+    } catch (error) {
+        console.error('Void page error:', error);
+        res.status(500).send('Error loading void page');
+    }
+});
+
+// This should remain last
 app.get('/:page', async (req, res) => {
   const page = req.params.page;
   await renderPage(

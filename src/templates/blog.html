@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Your Site</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Fixed buttons container -->
+    <div class="fixed-buttons">
+        <div class="left-buttons">
+            <button class="nav-toggle" title="Toggle Navigation"></button>
+        </div>
+        <div class="right-buttons">
+            <button class="theme-toggle" title="Toggle theme">🌈</button>
+        </div>
+    </div>
+    
+    <header>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/blog">Blog</a>
+            <a href="/about">About</a>
+            <a href="/faq">FAQ</a>
+            <a href="/contact">Contact</a>
+        </nav>
+    </header>
+
+    <main class="blog-posts">
+        <h1>Blog</h1>
+        {% for post in posts %}
+        <div class="post-preview">
+            <h2><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h2>
+            <div class="post-meta">{{ post.date }}</div>
+            <div class="post-summary">{{ post.summary }}</div>
+        </div>
+        {% endfor %}
+    </main>
+</body>
+</html> 
